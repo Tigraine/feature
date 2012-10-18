@@ -4,6 +4,45 @@ require 'tempfile'
 include Feature::Repository
 
 describe Feature::Repository::YamlRepository do
+  context "proper config file with rails environment" do
+    class MockRails
+      def self.env
+        "test"
+      end
+    end
+
+    before do
+      stub_const("Rails", MockRails)
+      @filename = Tempfile.new(['feature_config', '.yaml']).path
+      fp = File.new(@filename, 'w')
+      fp.write <<"EOF";
+development:
+    features:
+        feature_a_active: true
+        feature_b_active: true
+        feature_c_inactive: false
+        feature_d_inactive: false
+test:
+    features:
+        feature_a_active: true
+        feature_b_inactive: false
+        feature_c_active: true
+        feature_d_inactive: false
+EOF
+      fp.close
+
+      @repo = YamlRepository.new(@filename)
+    end
+
+    after do
+      File.delete(@filename)
+    end
+
+    it "should read active features from the correct environment in the file" do
+      @repo.active_features.should == [:feature_a_active, :feature_c_active]
+    end
+  end
+
   context "proper config file" do
     before(:each) do
       @filename = Tempfile.new(['feature_config', '.yaml']).path

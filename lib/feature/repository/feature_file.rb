@@ -2,7 +2,7 @@ module Feature
   module Repository
     class FeatureFile
       def initialize(features)
-        @features = features
+        @features = (defined?(Rails) && features.has_key?(Rails.env)) ? features[Rails.env] : features
       end
 
       def valid?

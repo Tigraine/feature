@@ -9,12 +9,12 @@ describe Feature::Repository::FeatureFile do
       feature_file.valid?.should be_false
     end
 
-    it "should return false if features does not have a key called 'features'" do
+    it "should return false if the features hash does not have a key called 'features'" do
       features_file = FeatureFile.new({'fatures' => false})
       features_file.valid?.should be_false
     end
 
-    it "should return true if features does have a key called 'features'" do
+    it "should return true if the features hash does have a key called 'features'" do
       features_file = FeatureFile.new({'features' => true})
       features_file.valid?.should be_true
     end
