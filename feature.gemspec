@@ -2,7 +2,7 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = "feature"
-  s.version = "0.6.0"
+  s.version = "0.5.0cw1"
 
   s.authors = ["Markus Gerdes"]
   s.email = %q{github@mgsnova.de}
